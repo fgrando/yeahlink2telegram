@@ -1,0 +1,21 @@
+# Install: cp yeahlink2telegram.service /etc/systemd/system/
+#          systemctl daemon-reload && systemctl enable --now yeahlink2telegram
+# Logs:    journalctl -u yeahlink2telegram -f
+[Unit]
+Description=Yealink Action URL -> Telegram notifications
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/yeahlink2telegram/yeahlink2telegram.py
+WorkingDirectory=/root/yeahlink2telegram
+User=root
+Restart=always
+RestartSec=30
+Environment=YN_LISTEN_PORT=8088
+#Environment=YN_ALLOWED_IPS=192.168.1.50
+#Environment=YN_EVENTS=*
+#Environment=YN_STATUS_THROTTLE=900
+
+[Install]
+WantedBy=multi-user.target
